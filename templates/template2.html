@@ -1,0 +1,20 @@
+<html>
+<head>
+
+
+</head>
+<body>
+    <table>
+      <tr>
+        <th> Temperature: {{ acttemp }} </th>
+        <th> Humidity: {{ acthumid }}% </th>
+      </tr>
+        <tr>
+          <td><img src="data:image/png;base64,{{ airqual_plot|safe }}"></td>
+        <tr>
+        <tr>
+          <td><img src="data:image/png;base64,{{ temp_humid_plot|safe }}"></td>
+        </tr>
+      </table>
+</body>
+</html>
