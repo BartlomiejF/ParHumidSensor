@@ -32,16 +32,19 @@ class Comment(db.Model):
     comment = db.Column(db.String(30))
 
 
-class CarCountSchema(ma.ModelSchema):
+class CarCountSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = CarCount
+        load_instance = True
 
 
-class AirParametersSchema(ma.ModelSchema):
+class AirParametersSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = AirParameters
+        load_instance = True
 
 
-class TempAndHumiditySchema(ma.ModelSchema):
+class TempAndHumiditySchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = TempAndHumidity
+        load_instance = True

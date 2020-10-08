@@ -1,0 +1,4 @@
+curl -d '{"temperature":"23", "humidity":"69"}' -H'Content-Type: application/json'   http://127.0.0.1:5000/TempHumidMonitor
+
+curl -d '{"pm2_5":"17", "pm10":"39"}' -H 'Content-Type: application/json'  http://127.0.0.1:5000/AirQualityMonitor
+
