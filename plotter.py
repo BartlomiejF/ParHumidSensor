@@ -21,14 +21,16 @@ def plot(airqualjson, temphumidjson):
     ax_airqual[0].axhspan(0, 20, 0, 1, color="g", alpha=0.2)
     axymax = airqual_data["pm2_5"].max()
     axymax = axymax*1.1
-    ax_airqual[0].axhspan(20, axymax, 0, 1, color="r", alpha=0.2)
+    if axymax > 20:
+        ax_airqual[0].axhspan(20, axymax, 0, 1, color="r", alpha=0.2)
 
     ax_airqual[1].plot(airqual_time, airqual_data["pm10"])
     ax_airqual[1].axhline(50, ls="--", c="r")
     ax_airqual[1].axhspan(0, 50, 0, 1, color="g", alpha=0.2)
     ax1ymax = airqual_data["pm10"].max()
     ax1ymax = ax1ymax*1.1
-    ax_airqual[1].axhspan(50, ax1ymax, 0, 1, color="r", alpha=0.2)
+    if ax1ymax > 50:
+        ax_airqual[1].axhspan(50, ax1ymax, 0, 1, color="r", alpha=0.2)
 
     fig_temphumid, ax_temphumid = plt.subplots(1,2, figsize=(10, 5))
     ax_temphumid[0].plot(temphumid_time, temphumid_data["temperature"])
