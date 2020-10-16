@@ -1,5 +1,3 @@
-#!/usr/bin/env python3.6
-
 from flask import Flask, render_template
 from flask_restful import Api
 # from flask_migrate import Migrate
@@ -77,7 +75,7 @@ def graphs():
     lasthumid = lasttemphumid["humidity"]
     lasttemp = lasttemphumid["temperature"]
     airqualdata = myapi.AirQualityMonitor().get().get_json()
-    plots = plotter2.plot(airqualdata, temphumid)
+    plots = plotter.plot(airqualdata, temphumid)
     return render_template(
         "template2.html",
         temp_humid_plot=plots[1].decode('utf8'),
