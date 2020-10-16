@@ -1,6 +1,9 @@
 # ParHumidSensor [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE) 
 Raspberry Pi Flask REST API utilising DHT11 and SDS011 PM2.5 and PM10 sensor.
 
+## Disclaimer
+The SDS011 module was copied from [this repository](https://github.com/ikalchev/py-sds011)
+
 ## Installation
 Setup your Raspberry Pi with SDS011 and DHT11 sensors.
 Install necessary Raspberry Pi modules running following commands:
