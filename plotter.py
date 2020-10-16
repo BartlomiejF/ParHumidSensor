@@ -14,8 +14,8 @@ def plot(airqualjson, temphumidjson):
 
     airqual_time = airqual_data["date_time"].astype("datetime64")
     temphumid_time = temphumid_data["date_time"].astype("datetime64")
-    
-    fig_airqual, ax_airqual = plt.subplots(1,2, figsize=(10, 5))
+
+    fig_airqual, ax_airqual = plt.subplots(1, 2, figsize=(10, 5))
     ax_airqual[0].plot(airqual_time, airqual_data["pm2_5"])
     ax_airqual[0].axhline(20, ls="--", c="r")
     ax_airqual[0].axhspan(0, 20, 0, 1, color="g", alpha=0.2)
@@ -32,7 +32,7 @@ def plot(airqualjson, temphumidjson):
     if ax1ymax > 50:
         ax_airqual[1].axhspan(50, ax1ymax, 0, 1, color="r", alpha=0.2)
 
-    fig_temphumid, ax_temphumid = plt.subplots(1,2, figsize=(10, 5))
+    fig_temphumid, ax_temphumid = plt.subplots(1, 2, figsize=(10, 5))
     ax_temphumid[0].plot(temphumid_time, temphumid_data["temperature"])
     ax_temphumid[1].plot(temphumid_time, temphumid_data["humidity"])
 
@@ -46,5 +46,6 @@ def plot(airqualjson, temphumidjson):
     figdata_temphumid_png = figfile_temphumid.getvalue()  # extract string (stream of bytes)
     figdata_airqual_png = base64.b64encode(figdata_airqual_png)
     figdata_temphumid_png = base64.b64encode(figdata_temphumid_png)
-    
+
     return (figdata_airqual_png, figdata_temphumid_png)
+    
