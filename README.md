@@ -7,4 +7,5 @@ Clone the repository
     git clone https://github.com/BartlomiejF/ParHumidSensor
 
 Then install dependencies with command
+
     python3 -m pip install -r requirements.txt
