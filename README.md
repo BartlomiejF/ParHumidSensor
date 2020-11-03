@@ -2,7 +2,7 @@
 Raspberry Pi Flask REST API utilising DHT11 and SDS011 PM2.5 and PM10 sensor.
 
 ## Disclaimer
-The SDS011 module was copied from [this repository](https://github.com/ikalchev/py-sds011)
+The SDS011 module was copied from [this repository](https://github.com/ikalchev/py-sds011).
 
 ## Installation
 Setup your Raspberry Pi with SDS011 and DHT11 sensors.
@@ -11,7 +11,7 @@ Install necessary Raspberry Pi modules running following commands:
     python3 -m pip install RPi.GPIO adafruit-blinka adafruit-circuitpython-dht
     sudo apt install libgpiod2
 
-If any problems occur start looking for solution from [here](https://learn.adafruit.com/circuitpython-on-raspberrypi-linux/installing-circuitpython-on-raspberry-pi)
+If any problems occur start looking for solution from [here](https://learn.adafruit.com/circuitpython-on-raspberrypi-linux/installing-circuitpython-on-raspberry-pi).
 
 Clone the repository
 
@@ -22,6 +22,7 @@ Then install dependencies with command
     python3 -m pip install -r requirements.txt
 
 ## Usage
+
 
 
 # Have fun!

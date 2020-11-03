@@ -1,10 +1,7 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
-import json
-import myapi
 
 
 def plot(airqualjson, temphumidjson):
@@ -48,4 +45,3 @@ def plot(airqualjson, temphumidjson):
     figdata_temphumid_png = base64.b64encode(figdata_temphumid_png)
 
     return (figdata_airqual_png, figdata_temphumid_png)
-    

@@ -1,13 +1,16 @@
 import requests
-import numpy as np
 import adafruit_dht
 import board
-import argparse
 import time
+
+"""
+This is temperature and humidity measurement script. Be sure to use proper GPIO
+pin or change it in the script.
+"""
 
 if __name__ == "__main__":
     try:
-        sensor = adafruit_dht.DHT11(board.D7)
+        sensor = adafruit_dht.DHT11(board.D7)  # The GPIO pin is here
 
         humid, temp = sensor.humidity, sensor.temperature
 

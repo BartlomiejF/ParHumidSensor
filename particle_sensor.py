@@ -1,9 +1,15 @@
 import requests
 import numpy as np
-
 import sds011
 import time
 
+"""
+This script measures PM2.5 and PM10 concentration with SDS011 sensor. When
+executed the script launches SDS011 fan and lets it work for 90 seconds to
+make shure that the sensor measurement is filled with recent air in maximum
+volume. It also makes 5 measurements and calculates mean value to minimize
+some errors.
+"""
 
 if __name__ == "__main__":
     try:
@@ -11,6 +17,7 @@ if __name__ == "__main__":
         sensor.sleep(sleep=False)
         pm2_5 = np.empty(0)
         pm10 = np.empty(0)
+        time.sleep(60)
         for _ in range(5):
             time.sleep(30)
             meas = sensor.query()
@@ -27,4 +34,4 @@ if __name__ == "__main__":
             )
 
     except:
-        print(f"sth went wrong")
+        print("sth went wrong")
