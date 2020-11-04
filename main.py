@@ -1,8 +1,6 @@
 from flask import Flask, render_template
 from flask_restful import Api
-# from flask_migrate import Migrate
 import myapi
-import json
 import plotter
 from db import db, ma
 import pathlib
