@@ -1,13 +1,16 @@
 from flask import Flask, render_template
 from flask_restful import Api
+import click
 import myapi
 import plotter
 from db import db, ma
+from crontab import CronTab
 import pathlib
+import argparse
 
 
 basedir = pathlib.Path(__file__).parent
-
+cron = CronTab(user=False)
 
 def create_app():
     app = Flask(__name__)
@@ -26,43 +29,70 @@ def create_app():
 app = create_app()
 api = Api(app)
 
-api.add_resource(
-    myapi.CarCounter,
-    "/CarCounter"
-    )
-api.add_resource(
-    myapi.CarCounterLast,
-    "/CarCounter/last"
-    )
-api.add_resource(
-    myapi.CarCounterLastNumber,
-    "/CarCounter/last/<nb>"
-    )
-api.add_resource(
-    myapi.AirQualityMonitor,
-    "/AirQualityMonitor"
-    )
-api.add_resource(
-    myapi.AirQualityMonitorLast,
-    "/AirQualityMonitor/last"
-    )
-api.add_resource(
-    myapi.AirQualityMonitorLastNumber,
-    "/AirQualityMonitor/last/<nb>"
-    )
-api.add_resource(
-    myapi.TempHumidMonitor,
-    "/TempHumidMonitor"
-    )
-api.add_resource(
-    myapi.TempHumidMonitorLast,
-    "/TempHumidMonitor/last"
-    )
-api.add_resource(
-    myapi.TempHumidMonitorLastNumber,
-    "/TempHumidMonitor/last/<nb>"
-    )
+parser = argparse.ArgumentParser(
+        prog="ParHumidMonitor",
+        description="""Monitor""",
+        )
 
+parser.add_argument(
+        "--particles",
+        help="add particle monitor, give monitor /dev/usbtmc file",
+        )
+
+parser.add_argument(
+        "--dht",
+        help="dht-11 pin number",
+        )
+
+args = parser.parse_args()
+
+# if args.cars:
+#     api.add_resource(
+#         myapi.CarCounter,
+#         "/CarCounter"
+#         )
+#     api.add_resource(
+#         myapi.CarCounterLast,
+#         "/CarCounter/last"
+#         )
+#     api.add_resource(
+#         myapi.CarCounterLastNumber,
+#         "/CarCounter/last/<nb>"
+#     )
+
+if args.particles:
+    api.add_resource(
+        myapi.AirQualityMonitor,
+        "/AirQualityMonitor"
+        )
+    api.add_resource(
+        myapi.AirQualityMonitorLast,
+        "/AirQualityMonitor/last"
+        )
+    api.add_resource(
+        myapi.AirQualityMonitorLastNumber,
+        "/AirQualityMonitor/last/<nb>"
+        )
+    job = cron.new(command=f"python3 particle_sensor.py {args.particles}")
+    job.minute.every(30)
+    cron.write()
+
+if args.dht:
+    api.add_resource(
+        myapi.TempHumidMonitor,
+        "/TempHumidMonitor"
+        )
+    api.add_resource(
+        myapi.TempHumidMonitorLast,
+        "/TempHumidMonitor/last"
+        )
+    api.add_resource(
+        myapi.TempHumidMonitorLastNumber,
+        "/TempHumidMonitor/last/<nb>"
+        )
+    job = cron.new(command=f"python3 temp_humid_sensor.py {args.dht}")
+    job.minute.every(30)
+    cron.write()
 
 @app.route("/")
 def graphs():
@@ -76,8 +106,8 @@ def graphs():
     plots = plotter.plot(airqualdata, temphumid)
     return render_template(
         "template2.html",
-        temp_humid_plot=plots[1].decode('utf8'),
-        airqual_plot=plots[0].decode('utf8'),
+        temp_humid_plot=plots["temphumid"].decode('utf8'),
+        airqual_plot=plots["airqual"].decode('utf8'),
         acttemp=lasttemp,
         acthumid=lasthumid,
     )

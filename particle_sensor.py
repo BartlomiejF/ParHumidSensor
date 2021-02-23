@@ -2,7 +2,12 @@ import requests
 import numpy as np
 import sds011
 import time
+import argparse
 
+
+parser = argparse.ArgumentParser(prog="Particle sensor script",
+                                description="Commit measurement")
+parser.add_argument("-s", "--sensor", help="sensor file path")
 """
 This script measures PM2.5 and PM10 concentration with SDS011 sensor. When
 executed the script launches SDS011 fan and lets it work for 90 seconds to
@@ -12,8 +17,9 @@ some errors.
 """
 
 if __name__ == "__main__":
+    args = parser.parse_args()
     try:
-        sensor = sds011.SDS011("/dev/ttyUSB0", use_query_mode=True)
+        sensor = sds011.SDS011(args.sensor, use_query_mode=True)
         sensor.sleep(sleep=False)
         pm2_5 = np.empty(0)
         pm10 = np.empty(0)

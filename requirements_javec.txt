@@ -1,0 +1,8 @@
+flask
+flask_marshmallow
+pandas
+matplotlib
+flask_sqlalchemy
+python-crontab
+flask_restful
+click
