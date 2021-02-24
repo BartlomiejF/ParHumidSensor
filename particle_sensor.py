@@ -7,7 +7,7 @@ import argparse
 
 parser = argparse.ArgumentParser(prog="Particle sensor script",
                                 description="Commit measurement")
-parser.add_argument("-s", "--sensor", help="sensor file path")
+parser.add_argument("sensor", help="sensor file path")
 """
 This script measures PM2.5 and PM10 concentration with SDS011 sensor. When
 executed the script launches SDS011 fan and lets it work for 90 seconds to

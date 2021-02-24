@@ -96,20 +96,36 @@ if args.dht:
 
 @app.route("/")
 def graphs():
-    # carnbdata = myapi.CarCounterLastNumber().get(24).get_json()
-    # airqualdata = myapi.AirQualityMonitorLastNumber().get(24).get_json()
-    temphumid = myapi.TempHumidMonitor().get().get_json()
-    lasttemphumid = myapi.TempHumidMonitorLast().get().get_json()
-    lasthumid = lasttemphumid["humidity"]
-    lasttemp = lasttemphumid["temperature"]
-    airqualdata = myapi.AirQualityMonitor().get().get_json()
+    airqualdata = None
+    temphumid = None
+
+    if args.dht:
+        temphumid = myapi.TempHumidMonitor().get().get_json()
+        lasttemphumid = myapi.TempHumidMonitorLast().get().get_json()
+        lasthumid = lasttemphumid["humidity"]
+        lasttemp = lasttemphumid["temperature"]
+    else: 
+        lasttemp = None
+        lasthumid = None
+
+    if args.particles:
+        airqualdata = myapi.AirQualityMonitor().get().get_json()
+
     plots = plotter.plot(airqualdata, temphumid)
     return render_template(
         "template2.html",
-        temp_humid_plot=plots["temphumid"].decode('utf8'),
-        airqual_plot=plots["airqual"].decode('utf8'),
-        acttemp=lasttemp,
-        acthumid=lasthumid,
+        data = {
+            "temp_humid": {
+                "temp": lasttemp,
+                "humid": lasthumid,
+                "plot": plots["temphumid"].decode("utf8"),
+            },
+            "air_quality_plot": plots["airqual"].decode("utf8"),
+        }
+        # temp_humid_plot=plots["temphumid"].decode('utf8'),
+        # airqual_plot=plots["airqual"].decode('utf8'),
+        # acttemp=lasttemp,
+        # acthumid=lasthumid,
     )
 
 

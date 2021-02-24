@@ -5,16 +5,20 @@
 </head>
 <body>
     <table>
+      {% if temp_humid["temp"] is not None %}
       <tr>
-        <th> Temperature: {{ acttemp }} </th>
-        <th> Humidity: {{ acthumid }}% </th>
+        <th> Temperature: {{ temp_humid["temp"] }} </th>
+        <th> Humidity: {{ temp_humid["humid"] }}% </th>
       </tr>
         <tr>
-          <td><img src="data:image/png;base64,{{ airqual_plot|safe }}"></td>
-        <tr>
-        <tr>
-          <td><img src="data:image/png;base64,{{ temp_humid_plot|safe }}"></td>
+          <td><img src="data:image/png;base64,{{ temp_humid['plot']|safe }}"></td>
         </tr>
+        {% endif %}
+        {% if air_quality_plot is not None %}
+        <tr>
+          <td><img src="data:image/png;base64,{{ air_quality_plot|safe }}"></td>
+        </tr>
+        {% endif %}
       </table>
 </body>
 </html>
