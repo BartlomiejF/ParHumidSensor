@@ -8,6 +8,7 @@ import argparse
 parser = argparse.ArgumentParser(prog="Particle sensor script",
                                 description="Commit measurement")
 parser.add_argument("sensor", help="sensor file path")
+parser.add_argument("endpoint", help="API endpoint")
 """
 This script measures PM2.5 and PM10 concentration with SDS011 sensor. When
 executed the script launches SDS011 fan and lets it work for 90 seconds to
@@ -35,7 +36,8 @@ if __name__ == "__main__":
         sensor.sleep()
         sensor.ser.close()
         r = requests.post(
-            "http://127.0.0.1:5000/AirQualityMonitor",
+            args.endpoint,
+            # "http://127.0.0.1:5000/AirQualityMonitor",
             params={"pm2_5": f"{pm2_5:.2f}", "pm10": f"{pm10:.2f}"}
             )
 

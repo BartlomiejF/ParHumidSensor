@@ -1,12 +1,12 @@
 from flask import Flask, render_template
 from flask_restful import Api
-import click
 import myapi
 import plotter
 from db import db, ma
 from crontab import CronTab
 import pathlib
 import argparse
+import ip_getter
 
 
 basedir = pathlib.Path(__file__).parent
@@ -73,7 +73,7 @@ if args.particles:
         myapi.AirQualityMonitorLastNumber,
         "/AirQualityMonitor/last/<nb>"
         )
-    job = cron.new(command=f"python3 particle_sensor.py {args.particles}")
+    job = cron.new(command=f"python3 particle_sensor.py {args.particles} http://{ip_getter.get_ip()}/AirQualityMonitor")
     job.minute.every(30)
     cron.write()
 
@@ -93,6 +93,7 @@ if args.dht:
     job = cron.new(command=f"python3 temp_humid_sensor.py {args.dht}")
     job.minute.every(30)
     cron.write()
+
 
 @app.route("/")
 def graphs():
