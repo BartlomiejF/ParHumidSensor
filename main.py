@@ -90,7 +90,7 @@ if args.dht:
         myapi.TempHumidMonitorLastNumber,
         "/TempHumidMonitor/last/<nb>"
         )
-    job = cron.new(command=f"python3 temp_humid_sensor.py {args.dht}")
+    job = cron.new(command=f"python3 temp_humid_sensor.py {args.dht} http://{ip_getter.get_ip()}/TempHumidMonitor")
     job.minute.every(30)
     cron.write()
 
