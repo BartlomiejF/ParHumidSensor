@@ -17,6 +17,7 @@ def plot(airqualjson=None, temphumidjson=None):
         ax_airqual[0].plot(airqual_time, airqual_data["pm2_5"])
         ax_airqual[0].axhline(20, ls="--", c="r")
         ax_airqual[0].axhspan(0, 20, 0, 1, color="g", alpha=0.2)
+        ax_airqual[0].set_title("pm 2.5")
         axymax = airqual_data["pm2_5"].max()
         axymax = axymax*1.1
         if axymax > 20:
@@ -25,6 +26,7 @@ def plot(airqualjson=None, temphumidjson=None):
         ax_airqual[1].plot(airqual_time, airqual_data["pm10"])
         ax_airqual[1].axhline(50, ls="--", c="r")
         ax_airqual[1].axhspan(0, 50, 0, 1, color="g", alpha=0.2)
+        ax_airqual[1].set_title("pm 10")
         ax1ymax = airqual_data["pm10"].max()
         ax1ymax = ax1ymax*1.1
         if ax1ymax > 50:

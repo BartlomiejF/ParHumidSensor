@@ -9,8 +9,8 @@ import argparse
 import ip_getter
 
 
-basedir = pathlib.Path(__file__).parent
-cron = CronTab(user=False)
+basedir = pathlib.Path(__file__).resolve().parent
+cron = CronTab(user=True)
 
 def create_app():
     app = Flask(__name__)
@@ -73,7 +73,7 @@ if args.particles:
         myapi.AirQualityMonitorLastNumber,
         "/AirQualityMonitor/last/<nb>"
         )
-    job = cron.new(command=f"python3 particle_sensor.py {args.particles} http://{ip_getter.get_ip()}/AirQualityMonitor")
+    job = cron.new(command=f"python3 {basedir}/particle_sensor.py {args.particles} http://{ip_getter.get_ip()}:5000/AirQualityMonitor")
     job.minute.every(30)
     cron.write()
 
@@ -90,7 +90,7 @@ if args.dht:
         myapi.TempHumidMonitorLastNumber,
         "/TempHumidMonitor/last/<nb>"
         )
-    job = cron.new(command=f"python3 temp_humid_sensor.py {args.dht} http://{ip_getter.get_ip()}/TempHumidMonitor")
+    job = cron.new(command=f"python3 {basedir}temp_humid_sensor.py {args.dht} http://{ip_getter.get_ip()}:5000/TempHumidMonitor")
     job.minute.every(30)
     cron.write()
 
@@ -110,7 +110,7 @@ def graphs():
         lasthumid = None
 
     if args.particles:
-        airqualdata = myapi.AirQualityMonitor().get().get_json()
+        airqualdata = myapi.AirQualityMonitorLastNumber().get(48).get_json()
 
     plots = plotter.plot(airqualdata, temphumid)
     return render_template(
@@ -119,9 +119,10 @@ def graphs():
             "temp_humid": {
                 "temp": lasttemp,
                 "humid": lasthumid,
-                "plot": plots["temphumid"].decode("utf8"),
+                # "plot": plots["temphumid"].decode("utf8"),
+                "plot": None
             },
-            "air_quality_plot": plots["airqual"].decode("utf8"),
+            "air_quality_plot": plots["airqual"].decode("ascii"),
         }
         # temp_humid_plot=plots["temphumid"].decode('utf8'),
         # airqual_plot=plots["airqual"].decode('utf8'),
@@ -133,5 +134,5 @@ def graphs():
 if __name__ == "__main__":
     app.run(
         debug=True,
-        # host="0.0.0.0"
+        host="0.0.0.0"
         )

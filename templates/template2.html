@@ -7,14 +7,14 @@
     <table>
       {% if data["temp_humid"]["temp"] is not none %}
       <tr>
-        <th> Temperature: {{ temp_humid["temp"] }} </th>
-        <th> Humidity: {{ temp_humid["humid"] }}% </th>
+        <th> Temperature: {{ data["temp_humid"]["temp"] }} </th>
+        <th> Humidity: {{ data["temp_humid"]["humid"] }}% </th>
       </tr>
         <tr>
-          <td><img src="data:image/png;base64,{{ temp_humid['plot']|safe }}"></td>
+          <td><img src="data:image/png;base64,{{ data['temp_humid']['plot']|safe }}"></td>
         </tr>
         {% endif %}
-        {% if data["air_quality_plot"] is not none %}
+        {% if air_quality_plot is not None %}
         <tr>
           <td><img src="data:image/png;base64,{{ data['air_quality_plot']|safe }}"></td>
         </tr>
